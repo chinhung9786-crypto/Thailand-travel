@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>曼谷 & 芭達雅 9天8夜 家庭冒險之旅</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Huninn (粉圓) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-washi: #FFFCF6;
+      --border-ink: #3E3A39;
+      --coral-pink: #F2A497;
+      --yamabuki-yellow: #F6D27A;
+      --mizu-cyan: #A8D3E6;
+      --wakatake-green: #B9DAA5;
+      --soft-cream: #F7F2E7;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Huninn', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-washi);
+      color: var(--border-ink);
+      line-height: 1.6;
+    }
+
+    /* 日系繪本風核心：3px 墨灰粗線、純色大圓角、硬邊投影（嚴禁漸層） */
+    .comic-card {
+      background-color: #FFFFFF;
+      border: 3px solid var(--border-ink);
+      border-radius: 24px;
+      box-shadow: 4px 4px 0px var(--border-ink);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .comic-card-cream {
+      background-color: var(--soft-cream);
+      border: 3px solid var(--border-ink);
+      border-radius: 22px;
+      box-shadow: 4px 4px 0px var(--border-ink);
+    }
+
+    .comic-btn {
+      border: 3px solid var(--border-ink);
+      border-radius: 18px;
+      box-shadow: 3px 3px 0px var(--border-ink);
+      font-weight: 700;
+      transition: all 0.12s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .comic-btn:active, .comic-btn.active-tab {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px var(--border-ink);
+    }
+
+    .badge-tag {
+      border: 2px solid var(--border-ink);
+      border-radius: 9999px;
+      box-shadow: 2px 2px 0px var(--border-ink);
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .must-visit-stamp {
+      background-color: var(--coral-pink);
+      color: #FFFFFF;
+      border: 2.5px solid var(--border-ink);
+      border-radius: 12px;
+      transform: rotate(-3deg);
+      box-shadow: 2px 2px 0px var(--border-ink);
+      display: inline-block;
+      padding: 2px 8px;
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+    }
+
+    /* 輕輕漂浮動態 */
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(1.2deg); }
+    }
+
+    @keyframes gentleWiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-2deg); }
+      75% { transform: rotate(2deg); }
+    }
+
+    @keyframes bouncePop {
+      0% { transform: scale(0.94); opacity: 0.5; }
+      60% { transform: scale(1.02); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .animate-float {
+      animation: gentleFloat 4s ease-in-out infinite;
+    }
+
+    .animate-wiggle {
+      animation: gentleWiggle 3s ease-in-out infinite;
+    }
+
+    .bouncy-tab-content {
+      animation: bouncePop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* 支援減少動態效果模式 */
+    @media (prefers-reduced-motion: reduce) {
+      *, .animate-float, .animate-wiggle, .bouncy-tab-content {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* 自訂捲軸 */
+    ::-webkit-scrollbar {
+      height: 8px;
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F7F2E7;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--yamabuki-yellow);
+      border: 2px solid var(--border-ink);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-[#3E3A39] antialiased pb-20 selection:bg-[#F6D27A] selection:text-[#3E3A39]">
+
+  <!-- ================= 頂端固定選單 (Sticky Header) ================= -->
+  <header class="sticky top-0 z-50 bg-[#FFFCF6]/95 backdrop-blur-sm border-b-4 border-[#3E3A39] px-3 sm:px-6 py-2.5 transition-all">
+    <div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
+      <!-- Logo 標誌 -->
+      <a href="#top" class="flex items-center gap-2 group">
+        <div class="w-10 h-10 rounded-2xl bg-[#F6D27A] border-3 border-[#3E3A39] flex items-center justify-center shadow-[2px_2px_0_#3E3A39] group-hover:rotate-6 transition-transform">
+          <!-- 可愛嘟嘟車 SVG -->
+          <svg class="w-6 h-6 text-[#3E3A39]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-1.1 0-2 .9-2 2v7h2" fill="#A8D3E6"/>
+            <circle cx="7" cy="17" r="2" fill="#F2A497"/>
+            <path d="M9 17h6"/>
+            <circle cx="17" cy="17" r="2" fill="#F2A497"/>
+            <path d="M5 10h6v4H5z" fill="#FFF"/>
+          </svg>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-base sm:text-lg font-black tracking-tight leading-tight">曼谷芭達雅 9D8N</span>
+          <span class="text-[10px] sm:text-xs font-bold text-[#8A7C75]">2027 家庭漫活冒險</span>
+        </div>
+      </a>
+
+      <!-- 快速導航按鈕 -->
+      <nav class="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-bold overflow-x-auto no-scrollbar py-1">
+        <a href="#flights" class="px-2.5 py-1.5 rounded-xl bg-[#FFF] border-2 border-[#3E3A39] shadow-[2px_2px_0_#3E3A39] hover:bg-[#F6D27A] whitespace-nowrap">✈️ 航班</a>
+        <a href="#itinerary" class="px-2.5 py-1.5 rounded-xl bg-[#FFF] border-2 border-[#3E3A39] shadow-[2px_2px_0_#3E3A39] hover:bg-[#A8D3E6] whitespace-nowrap">🗺️ 行程</a>
+        <a href="#hotel" class="px-2.5 py-1.5 rounded-xl bg-[#FFF] border-2 border-[#3E3A39] shadow-[2px_2px_0_#3E3A39] hover:bg-[#B9DAA5] whitespace-nowrap">🏨 住宿</a>
+        <a href="#allergy" class="px-2.5 py-1.5 rounded-xl bg-[#F2A497] text-white border-2 border-[#3E3A39] shadow-[2px_2px_0_#3E3A39] hover:scale-105 whitespace-nowrap">⚠️ 過敏卡</a>
+        <a href="#checklist" class="px-2.5 py-1.5 rounded-xl bg-[#FFF] border-2 border-[#3E3A39] shadow-[2px_2px_0_#3E3A39] hover:bg-[#F6D27A] whitespace-nowrap">📝 待辦</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="max-w-4xl mx-auto px-4 sm:px-6 pt-6 space-y-8 sm:space-y-12">
+
+    <!-- ================= 首頁 Hero 區塊 ================= -->
+    <section class="comic-card p-5 sm:p-8 bg-[#FFFCF6] relative overflow-hidden text-center sm:text-left">
+      <!-- 裝飾性雲朵與太陽 -->
+      <div class="absolute -top-3 -right-3 w-20 h-20 opacity-80 pointer-events-none hidden sm:block">
+        <svg viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="30" fill="#F6D27A" stroke="#3E3A39" stroke-width="4"/>
+          <path d="M50 10v10M50 80v10M10 50h10M80 50h10" stroke="#3E3A39" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+        <!-- 左側文案與倒數計時 -->
+        <div class="md:col-span-7 space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#F7F2E7] border-2 border-[#3E3A39] rounded-full text-xs font-extrabold shadow-[2px_2px_0_#3E3A39]">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#B9DAA5] border border-[#3E3A39] inline-block animate-pulse"></span>
+            <span>2027/1/21 (四) 出發 · 涼季微風 28°C</span>
+          </div>
+
+          <h1 class="text-2xl sm:text-4xl font-black tracking-tight leading-tight text-[#3E3A39]">
+            🇹🇭 曼谷 & 芭達雅<br>
+            <span class="inline-block mt-1 text-[#F2A497] drop-shadow-[2px_2px_0_#3E3A39]">9天8夜 家庭冒險之旅</span>
+          </h1>
+
+          <p class="text-sm sm:text-base font-bold text-[#6D6560]">
+            星宇直飛 ✕ 每天10點出門 ✕ 暹羅古建與真理寺 ✕ 尼莫島小丑魚共游 ✕ 安心無海鮮美饌
+          </p>
+
+          <!-- 即時出發倒數計時器 -->
+          <div class="p-3.5 sm:p-4 bg-[#F7F2E7] border-3 border-[#3E3A39] rounded-2xl shadow-[3px_3px_0_#3E3A39]">
+            <div class="flex items-center justify-between text-xs font-black text-[#5C5550] mb-2">
+              <span class="flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-[#F2A497]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path></svg>
+                距離出發登機倒數
+              </span>
+              <span class="text-[11px] bg-white px-2 py-0.5 rounded-lg border border-[#3E3A39]">JX745 13:55 TPE</span>
+            </div>
+            <div class="grid grid-cols-4 gap-2 text-center" id="countdown-timer">
+              <div class="bg-white border-2 border-[#3E3A39] rounded-xl py-1.5 shadow-[2px_2px_0_#3E3A39]">
+                <span class="block text-lg sm:text-2xl font-black text-[#F2A497]" id="cd-days">--</span>
+                <span class="text-[10px] font-bold text-[#8A7C75]">天</span>
+              </div>
+              <div class="bg-white border-2 border-[#3E3A39] rounded-xl py-1.5 shadow-[2px_2px_0_#3E3A39]">
+                <span class="block text-lg sm:text-2xl font-black text-[#F6D27A]" id="cd-hours">--</span>
+                <span class="text-[10px] font-bold text-[#8A7C75]">時</span>
+              </div>
+              <div class="bg-white border-2 border-[#3E3A39] rounded-xl py-1.5 shadow-[2px_2px_0_#3E3A39]">
+                <span class="block text-lg sm:text-2xl font-black text-[#A8D3E6]" id="cd-minutes">--</span>
+                <span class="text-[10px] font-bold text-[#8A7C75]">分</span>
+              </div>
+              <div class="bg-white border-2 border-[#3E3A39] rounded-xl py-1.5 shadow-[2px_2px_0_#3E3A39]">
+                <span class="block text-lg sm:text-2xl font-black text-[#B9DAA5]" id="cd-seconds">--</span>
+                <span class="text-[10px] font-bold text-[#8A7C75]">秒</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右側：日系繪本大插圖（純 SVG 手繪） -->
+        <div class="md:col-span-5 flex justify-center items-center">
+          <div class="w-full max-w-[280px] sm:max-w-[320px] p-2 bg-[#A8D3E6] border-3 border-[#3E3A39] rounded-3xl shadow-[4px_4px_0_#3E3A39] animate-float">
+            <!-- 泰國繪本元素 SVG：星宇飛機 + 泰國大象 + 寺廟 + 椰子樹 -->
+            <svg viewBox="0 0 320 260" class="w-full h-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- 天空背景雲朵 -->
+              <rect width="320" height="260" rx="20" fill="#A8D3E6"/>
+              <path d="M20 70 Q30 50 50 60 Q70 50 85 70 Q95 70 95 85 Q95 95 80 95 L25 95 Q10 95 15 80 Z" fill="#FFFFFF" stroke="#3E3A39" stroke-width="3"/>
+              <path d="M220 50 Q235 30 255 40 Q275 30 290 50 Q305 55 300 70 L215 70 Q210 55 220 50 Z" fill="#FFFFFF" stroke="#3E3A39" stroke-width="3"/>
+
+              <!-- 暖陽 -->
+              <circle cx="280" cy="50" r="26" fill="#F6D27A" stroke="#3E3A39" stroke-width="3"/>
+
+              <!-- 遠景：鄭王廟金色佛塔尖剪影 -->
+              <polygon points="120,180 130,90 140,180" fill="#F6D27A" stroke="#3E3A39" stroke-width="3"/>
+              <polygon points="125,90 130,55 135,90" fill="#F6D27A" stroke="#3E3A39" stroke-width="3"/>
+              <line x1="130" y1="55" x2="130" y2="40" stroke="#3E3A39" stroke-width="3"/>
+
+              <!-- 熱帶椰子樹 -->
+              <path d="M60 210 Q65 160 50 120" stroke="#3E3A39" stroke-width="8" stroke-linecap="round"/>
+              <path d="M50 120 Q20 110 10 130" stroke="#B9DAA5" stroke-width="12" stroke-linecap="round"/>
+              <path d="M50 120 Q50 90 30 85" stroke="#B9DAA5" stroke-width="12" stroke-linecap="round"/>
+              <path d="M50 120 Q80 100 85 125" stroke="#B9DAA5" stroke-width="12" stroke-linecap="round"/>
+
+              <!-- 地面草皮 -->
+              <path d="M-10 210 Q80 195 160 205 Q240 215 330 200 L330 270 L-10 270 Z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="4"/>
+
+              <!-- 可愛小象 (泰國吉祥物) -->
+              <g transform="translate(145, 125)">
+                <!-- 象身與腳 -->
+                <rect x="25" y="45" width="70" height="50" rx="20" fill="#FFFFFF" stroke="#3E3A39" stroke-width="3.5"/>
+                <rect x="35" y="75" width="14" height="25" rx="6" fill="#FFFFFF" stroke="#3E3A39" stroke-width="3"/>
+                <rect x="70" y="75" width="14" height="25" rx="6" fill="#FFFFFF" stroke="#3E3A39" stroke-width="3"/>
+                <!-- 象頭與大耳朵 -->
+                <circle cx="25" cy="48" r="24" fill="#FFFFFF" stroke="#3E3A39" stroke-width="3.5"/>
+                <path d="M38 35 Q50 35 50 55 Q50 70 38 65 Z" fill="#F2A497" stroke="#3E3A39" stroke-width="3"/>
+                <!-- 象鼻往上翹象徵幸運 -->
+                <path d="M12 55 Q2 65 5 78 Q10 85 18 78" fill="none" stroke="#3E3A39" stroke-width="5" stroke-linecap="round"/>
+                <!-- 眼睛與腮紅 -->
+                <circle cx="20" cy="45" r="3" fill="#3E3A39"/>
+                <circle cx="15" cy="52" r="4" fill="#F2A497"/>
+                <!-- 象背上的傳統花紋座墊 -->
+                <path d="M45 45 Q60 40 75 45 L78 58 Q60 62 42 58 Z" fill="#F6D27A" stroke="#3E3A39" stroke-width="2.5"/>
+              </g>
+
+              <!-- 星宇飛機 (JX745/JX746 啟航) -->
+              <g transform="translate(45, 25) rotate(-6)">
+                <!-- 機身 -->
+                <path d="M20 25 L85 22 Q115 22 125 32 Q115 42 85 42 L20 38 Z" fill="#FFFFFF" stroke="#3E3A39" stroke-width="3"/>
+                <!-- 尾翼 -->
+                <path d="M20 25 L5 8 L18 8 L32 25 Z" fill="#F6D27A" stroke="#3E3A39" stroke-width="3"/>
+                <!-- 機翼 -->
+                <path d="M60 32 L40 60 L55 60 L85 36 Z" fill="#F2A497" stroke="#3E3A39" stroke-width="3"/>
+                <!-- 窗戶 -->
+                <circle cx="75" cy="29" r="2.5" fill="#3E3A39"/>
+                <circle cx="85" cy="29" r="2.5" fill="#3E3A39"/>
+                <circle cx="95" cy="29" r="2.5" fill="#3E3A39"/>
+                <circle cx="105" cy="30" r="2.5" fill="#3E3A39"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 航班資訊卡區 (星宇航空專屬卡) ================= -->
+    <section id="flights" class="space-y-4">
+      <div class="flex items-center gap-2">
+        <span class="w-4 h-8 bg-[#F6D27A] border-2 border-[#3E3A39] rounded-md inline-block shadow-[2px_2px_0_#3E3A39]"></span>
+        <h2 class="text-xl sm:text-2xl font-black text-[#3E3A39]">航班詳細資訊 · 星宇航空 (STARLUX)</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <!-- 去程卡片 -->
+        <div class="comic-card p-5 bg-[#FFFFFF] border-3 border-[#3E3A39] relative">
+          <div class="flex items-center justify-between mb-3">
+            <span class="badge-tag bg-[#A8D3E6] px-3 py-1 text-xs">去程啟航</span>
+            <span class="font-black text-sm bg-[#F7F2E7] px-2.5 py-0.5 rounded-lg border-2 border-[#3E3A39]">JX745</span>
+          </div>
+
+          <div class="flex items-center justify-between my-2">
+            <div class="text-left">
+              <span class="text-2xl sm:text-3xl font-black text-[#3E3A39]">13:55</span>
+              <div class="text-xs font-black text-[#8A7C75]">桃園 TPE (第一航廈)</div>
+            </div>
+            <div class="flex flex-col items-center px-2">
+              <span class="text-[11px] font-bold text-[#A8A09A]">飛行 3h 45m</span>
+              <div class="w-16 sm:w-24 h-1 bg-[#3E3A39] my-1 relative">
+                <span class="absolute -top-2 left-1/2 -translate-x-1/2 text-xs">✈️</span>
+              </div>
+              <span class="text-[10px] text-[#B9DAA5] font-black bg-[#FFFCF6] px-1 border border-[#3E3A39] rounded">含機上美饌</span>
+            </div>
+            <div class="text-right">
+              <span class="text-2xl sm:text-3xl font-black text-[#3E3A39]">16:40</span>
+              <div class="text-xs font-black text-[#8A7C75]">曼谷 BKK (蘇凡納布)</div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t-2 border-dashed border-[#D2C8BE] text-xs font-bold text-[#6D6560] flex items-center justify-between">
+            <span>📅 2027/01/21 (四)</span>
+            <span class="text-[#F2A497]">★ 建議 11:00 抵達桃機櫃檯</span>
+          </div>
+        </div>
+
+        <!-- 回程卡片 -->
+        <div class="comic-card p-5 bg-[#FFFFFF] border-3 border-[#3E3A39] relative">
+          <div class="flex items-center justify-between mb-3">
+            <span class="badge-tag bg-[#F2A497] text-white px-3 py-1 text-xs">返國航班</span>
+            <span class="font-black text-sm bg-[#F7F2E7] px-2.5 py-0.5 rounded-lg border-2 border-[#3E3A39]">JX746</span>
+          </div>
+
+          <div class="flex items-center justify-between my-2">
+            <div class="text-left">
+              <span class="text-2xl sm:text-3xl font-black text-[#3E3A39]">17:50</span>
+              <div class="text-xs font-black text-[#8A7C75]">曼谷 BKK (蘇凡納布)</div>
+            </div>
+            <div class="flex flex-col items-center px-2">
+              <span class="text-[11px] font-bold text-[#A8A09A]">飛行 3h 50m</span>
+              <div class="w-16 sm:w-24 h-1 bg-[#3E3A39] my-1 relative">
+                <span class="absolute -top-2 left-1/2 -translate-x-1/2 text-xs">🛬</span>
+              </div>
+              <span class="text-[10px] text-[#F6D27A] font-black bg-[#FFFCF6] px-1 border border-[#3E3A39] rounded">星宇特調美味</span>
+            </div>
+            <div class="text-right">
+              <span class="text-2xl sm:text-3xl font-black text-[#3E3A39]">22:40</span>
+              <div class="text-xs font-black text-[#8A7C75]">桃園 TPE (第一航廈)</div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t-2 border-dashed border-[#D2C8BE] text-xs font-bold text-[#6D6560] flex items-center justify-between">
+            <span>📅 2027/01/29 (五)</span>
+            <span class="text-[#F2A497]">★ 先至海關退稅蓋章再托運</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 每日行程時間軸 (Day 1 - Day 9 切換) ================= -->
+    <section id="itinerary" class="space-y-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="w-4 h-8 bg-[#A8D3E6] border-2 border-[#3E3A39] rounded-md inline-block shadow-[2px_2px_0_#3E3A39]"></span>
+          <h2 class="text-xl sm:text-2xl font-black text-[#3E3A39]">每日探險日程</h2>
+        </div>
+        <span class="text-xs font-bold text-[#8A7C75] bg-[#F7F2E7] px-3 py-1 rounded-full border border-[#3E3A39]">
+          ☀️ 每日 10:00 後悠閒出門
+        </span>
+      </div>
+
+      <!-- 日期滑動切換標籤列 -->
+      <div class="flex gap-2 overflow-x-auto pb-3 pt-1 no-scrollbar" id="day-tabs-container">
+        <!-- JS 動態生成 Day 1 ~ Day 9 按鈕 -->
+      </div>
+
+      <!-- 行程內容卡片 (帶彈跳動畫) -->
+      <div id="day-content" class="comic-card p-5 sm:p-7 bg-[#FFFFFF] bouncy-tab-content">
+        <!-- 內容由 JavaScript 依據選擇的 Day 動態呈現 -->
+      </div>
+    </section>
+
+    <!-- ================= 住宿資訊彙整 (3+3+2 晚規劃) ================= -->
+    <section id="hotel" class="space-y-4">
+      <div class="flex items-center gap-2">
+        <span class="w-4 h-8 bg-[#B9DAA5] border-2 border-[#3E3A39] rounded-md inline-block shadow-[2px_2px_0_#3E3A39]"></span>
+        <h2 class="text-xl sm:text-2xl font-black text-[#3E3A39]">全程精選住宿 · 3 + 3 + 2 晚</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- 飯店 1: Arte Hotel -->
+        <div class="comic-card p-5 bg-[#FFFFFF] flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="badge-tag bg-[#F6D27A] px-2.5 py-0.5 text-xs">Day 1 ~ Day 3 · 3晚</span>
+              <span class="text-xs font-bold text-[#8A7C75]">曼谷 Asok 圈</span>
+            </div>
+            <h3 class="text-base sm:text-lg font-black text-[#3E3A39]">Arte Hotel Bangkok</h3>
+            <p class="text-xs text-[#6A625D] mt-1.5 leading-relaxed">
+              📍 位於 Sukhumvit Soi 19，步行 4 分鐘達 BTS Asok 與 MRT Sukhumvit 雙捷運，周邊 7-11 與 Terminal 21 超方便。
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t-2 border-dashed border-[#E5DDD2] text-[11px] font-bold text-[#554D47] bg-[#F7F2E7] p-2.5 rounded-xl border border-[#3E3A39]">
+            🍳 早餐 06:30–10:30 · 房客現點熱蛋捲與熱粥
+          </div>
+        </div>
+
+        <!-- 飯店 2: Grande Centre Point Pattaya -->
+        <div class="comic-card p-5 bg-[#FFFFFF] flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="badge-tag bg-[#A8D3E6] px-2.5 py-0.5 text-xs">Day 4 ~ Day 6 · 3晚</span>
+              <span class="text-xs font-bold text-[#8A7C75]">芭達雅北站</span>
+            </div>
+            <h3 class="text-base sm:text-lg font-black text-[#3E3A39]">Grande Centre Point Pattaya</h3>
+            <p class="text-xs text-[#6A625D] mt-1.5 leading-relaxed">
+              📍 <strong>Terminal 21 Pattaya 正上方</strong>！電梯直通航廈商場，戶外有水上滑水道泳池與透明天空步道打卡點。
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t-2 border-dashed border-[#E5DDD2] text-[11px] font-bold text-[#554D47] bg-[#F7F2E7] p-2.5 rounded-xl border border-[#3E3A39]">
+            🌊 出門即是商場，下樓吃 Pier 21 海南雞飯超輕鬆
+          </div>
+        </div>
+
+        <!-- 飯店 3: Moxy Bangkok Ratchaprasong -->
+        <div class="comic-card p-5 bg-[#FFFFFF] flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="badge-tag bg-[#F2A497] text-white px-2.5 py-0.5 text-xs">Day 7 ~ Day 8 · 2晚</span>
+              <span class="text-xs font-bold text-[#8A7C75]">曼谷水門商圈</span>
+            </div>
+            <h3 class="text-base sm:text-lg font-black text-[#3E3A39]">Moxy Bangkok Ratchaprasong</h3>
+            <p class="text-xs text-[#6A625D] mt-1.5 leading-relaxed">
+              📍 萬豪旗下潮流風格！位於 The Market 9樓以上，對面即是 Big C 旗艦店，走 R-Walk 空橋直通 CentralWorld。
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t-2 border-dashed border-[#E5DDD2] text-[11px] font-bold text-[#554D47] bg-[#F7F2E7] p-2.5 rounded-xl border border-[#3E3A39]">
+            🛍️ 伴手禮直接抱回對面房間，出差/購物首選
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 海鮮過敏安心專區 (針對小朋友貼心設計) ================= -->
+    <section id="allergy" class="comic-card p-5 sm:p-7 bg-[#FFF7F5] border-3 border-[#3E3A39]">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl animate-wiggle">🦐🚫</span>
+          <div>
+            <h2 class="text-lg sm:text-xl font-black text-[#3E3A39]">海鮮過敏安心溝通卡 (Food Allergy Card)</h2>
+            <p class="text-xs font-bold text-[#F2A497]">點餐時直接將此卡片出示給店家或服務生看</p>
+          </div>
+        </div>
+        <button onclick="copyAllergyText()" class="comic-btn bg-[#FFFFFF] px-3 py-1.5 text-xs text-[#3E3A39] flex items-center gap-1 hover:bg-[#F6D27A]">
+          <span>📋 點我複製泰文</span>
+        </button>
+      </div>
+
+      <!-- 泰文大字展示框 -->
+      <div class="bg-white border-3 border-[#3E3A39] rounded-2xl p-4 sm:p-5 shadow-[3px_3px_0_#3E3A39] mb-4">
+        <p class="text-base sm:text-xl font-black text-[#8B2516] leading-relaxed tracking-wide select-all" id="allergy-thai-text">
+          ลูกของฉันแพ้อาหารทะเลอย่างรุนแรง (กุ้ง ปู หอย ปลาหมึก) โปรดอย่าใส่ส่วนผสมของอาหารทะเล กุ้งแห้ง หรือน้ำมันหอย ขอบคุณมากครับ
+        </p>
+        <div class="mt-3 pt-3 border-t-2 border-dashed border-[#E8DDD5] text-xs font-bold text-[#6D6560]">
+          <strong>中文意思：</strong>我的小孩對海鮮嚴重過敏（蝦、蟹、貝類、魷魚花枝）。請絕對不要添加任何海鮮食材、蝦米或蠔油，非常感謝您！
+        </div>
+      </div>
+
+      <!-- 安心推薦料理清單 (無海鮮交叉污染) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs font-black">
+        <div class="p-2.5 bg-white border-2 border-[#3E3A39] rounded-xl shadow-[2px_2px_0_#3E3A39]">
+          <span class="text-lg block mb-0.5">🍗</span>
+          紅大哥水門雞飯<br><span class="text-[10px] text-[#8A7C75]">純雞肉清高湯</span>
+        </div>
+        <div class="p-2.5 bg-white border-2 border-[#3E3A39] rounded-xl shadow-[2px_2px_0_#3E3A39]">
+          <span class="text-lg block mb-0.5">🍖</span>
+          喬德夜市火山排骨<br><span class="text-[10px] text-[#8A7C75]">純豬大骨燉煮</span>
+        </div>
+        <div class="p-2.5 bg-white border-2 border-[#3E3A39] rounded-xl shadow-[2px_2px_0_#3E3A39]">
+          <span class="text-lg block mb-0.5">🍕</span>
+          The Glass House<br><span class="text-[10px] text-[#8A7C75]">獨立西餐牛排披薩</span>
+        </div>
+        <div class="p-2.5 bg-white border-2 border-[#3E3A39] rounded-xl shadow-[2px_2px_0_#3E3A39]">
+          <span class="text-lg block mb-0.5">🥘</span>
+          Baan Khanitha<br><span class="text-[10px] text-[#8A7C75]">香蘭葉包雞與松阪豬</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 互動式行前準備清單 (Checklist) ================= -->
+    <section id="checklist" class="comic-card p-5 sm:p-7 bg-[#FFFFFF]">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <span class="w-4 h-8 bg-[#F6D27A] border-2 border-[#3E3A39] rounded-md inline-block shadow-[2px_2px_0_#3E3A39]"></span>
+          <h2 class="text-xl sm:text-2xl font-black text-[#3E3A39]">行前準備 & 打包待辦清單</h2>
+        </div>
+        <span class="text-xs font-bold text-[#8A7C75] bg-[#F7F2E7] px-2.5 py-1 rounded-lg border border-[#3E3A39]">
+          進度：<span id="checklist-progress" class="text-[#F2A497]">0 / 10</span>
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="checklist-items">
+        <!-- 由 JavaScript 生成打勾項目 -->
+      </div>
+    </section>
+
+    <!-- ================= 實用備忘小貼士 ================= -->
+    <section class="comic-card-cream p-5 sm:p-6 text-xs sm:text-sm font-bold text-[#554D47] space-y-2.5">
+      <div class="flex items-center gap-2 text-base font-black text-[#3E3A39]">
+        <span>💡</span>
+        <span>泰國家庭冒險旅行 Memo</span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+        <div class="flex items-start gap-1.5 bg-white p-2.5 rounded-xl border-2 border-[#3E3A39]">
+          <span>👗</span>
+          <span><strong>寺廟穿著</strong>：進入鄭王廟與真理寺請穿著過膝下裝，不可露肩與無袖。</span>
+        </div>
+        <div class="flex items-start gap-1.5 bg-white p-2.5 rounded-xl border-2 border-[#3E3A39]">
+          <span>🧾</span>
+          <span><strong>購物退稅</strong>：同一店家單日滿 2,000 泰銖出示護照索取黃色 P.P.10 退稅單。</span>
+        </div>
+        <div class="flex items-start gap-1.5 bg-white p-2.5 rounded-xl border-2 border-[#3E3A39]">
+          <span>🤿</span>
+          <span><strong>尼莫島裝備</strong>：自備長袖長褲水母衣（防曬又防水母/珊瑚刮碰）及防滑膠鞋。</span>
+        </div>
+        <div class="flex items-start gap-1.5 bg-white p-2.5 rounded-xl border-2 border-[#3E3A39]">
+          <span>❄️</span>
+          <span><strong>室內保暖</strong>：商場、BTS捷運與包車冷氣強勁，隨身備薄外套以防小朋友著涼。</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= 頁尾 ================= -->
+  <footer class="mt-12 text-center text-xs font-bold text-[#8A7C75] space-y-1">
+    <p>✦ 曼谷 & 芭達雅 9天8夜 家庭冒險之旅 ✦</p>
+    <p class="text-[11px] text-[#A89E97]">日系繪本風旅行地圖手冊 · 預祝全家旅途平安、笑容滿滿！</p>
+  </footer>
+
+  <!-- ================= JavaScript 資料與邏輯 ================= -->
+  <script>
+    // ---------------- 1. 完整 9 天行程資料 ----------------
+    const ITINERARY_DATA = [
+      {
+        day: 1,
+        date: "1/21 (四)",
+        title: "抵達曼谷 · 喬德夜市初體驗",
+        stay: "Arte Hotel Bangkok (曼谷 Asok)",
+        timeline: [
+          { time: "13:55 - 16:40", title: "搭乘星宇航空 JX745 飛往曼谷", badge: "星宇航班", badgeColor: "bg-[#F6D27A]", desc: "享用機上餐點，抵達蘇凡納布機場 (BKK)，辦理入境與領取行李。" },
+          { time: "18:00 - 19:15", title: "專屬包車前往 Arte Hotel 辦理入住", badge: "商務專車", badgeColor: "bg-[#B9DAA5]", desc: "司機機場大廳舉牌接機，直接送達 Asok 商圈飯店，免搬行李。" },
+          { time: "19:30 - 21:30", title: "喬德夜市 (Jodd Fairs Rama 9)", badge: "MRT 地鐵", badgeColor: "bg-[#A8D3E6]", isMust: true, desc: "搭 MRT 僅 2 站直達！必嚐微酸辣火山排骨（純清燉豬大骨無海鮮）、甜豬肉串（Moo Ping）、香蕉熱煎餅與芒果糯米飯。" }
+        ]
+      },
+      {
+        day: 2,
+        date: "1/22 (五)",
+        title: "暹羅古典建築 · 泰服打卡 · 河畔水上商城",
+        stay: "Arte Hotel Bangkok (曼谷 Asok)",
+        timeline: [
+          { time: "10:15 - 12:30", title: "鄭王廟 (黎明寺 Wat Arun) 泰服體驗", badge: "觀光交通船", badgeColor: "bg-[#A8D3E6]", isMust: true, desc: "河畔白色陶瓷巴壤塔，於周邊租借泰服（約 200–300 泰銖）拍攝家庭紀念寫真。" },
+          { time: "12:45 - 14:15", title: "午餐：Supanniga Eating Room (Tha Tien)", badge: "接駁渡輪", badgeColor: "bg-[#F6D27A]", desc: "米其林推薦河景餐廳！過敏安心點：香茅炸嫩雞、瑪莎曼咖哩牛腩、魚露高麗菜（需先預訂二樓露台）。" },
+          { time: "14:30 - 18:30", title: "ICONSIAM 暹羅天地 (室內水上市場)", badge: "河濱接駁船", badgeColor: "bg-[#A8D3E6]", isMust: true, desc: "吹冷氣漫遊 SookSiam 室內水上市場，欣賞水舞秀，晚餐品嚐 Thip Samai 鬼門炒河粉（指定無蝦雞肉版）及大果肉柳橙汁。" }
+        ]
+      },
+      {
+        day: 3,
+        date: "1/23 六",
+        title: "恰圖恰市集淘寶 · 百年傳統柚木家屋",
+        stay: "Arte Hotel Bangkok (曼谷 Asok)",
+        timeline: [
+          { time: "10:30 - 14:00", title: "恰圖恰週末市集 (Chatuchak Market)", badge: "BTS 空鐵", badgeColor: "bg-[#A8D3E6]", isMust: true, desc: "僅週末開放！漫步 Section 7, 8 手作香氛陶器與文創服飾。品嚐現剖香水椰子水、椰子冰淇淋與沙嗲雞肉串。" },
+          { time: "14:30 - 16:30", title: "吉姆湯普森故居 (Jim Thompson House)", badge: "BTS 空鐵", badgeColor: "bg-[#A8D3E6]", desc: "六棟由古都拆運組裝的百年柚木吊腳樓，四周被熱帶雨林環繞，館內收藏豐富東南亞佛像藝術，提供中文導覽。" },
+          { time: "18:30 - 20:30", title: "晚餐：Baan Khanitha Thai Cuisine", badge: "悠閒步行", badgeColor: "bg-[#F6D27A]", desc: "位於 Asok 的傳統泰式老宅庭園餐館，必點香蘭葉包嫩雞、椰汁嫩雞湯（Tom Kha Gai）與柚子沙拉。" }
+        ]
+      },
+      {
+        day: 4,
+        date: "1/24 (日)",
+        title: "跨城芭達雅 · 木雕神殿真理寺 · T21 景觀飯店",
+        stay: "Grande Centre Point Pattaya (T21 樓上)",
+        timeline: [
+          { time: "10:30 - 12:30", title: "包車直奔芭達雅 (車程約 2 小時)", badge: "跨城包車", badgeColor: "bg-[#B9DAA5]", desc: "司機直接將行李放上舒適休旅車，途中停靠高速公路優質休息站。" },
+          { time: "12:45 - 15:00", title: "純木雕奇蹟：真理寺 (Sanctuary of Truth)", badge: "專車隨行", badgeColor: "bg-[#B9DAA5]", isMust: true, desc: "臨海全手工純榫卯木雕建築，不含一根鐵釘！午餐享用園區泰式雞肉炒河粉與現剖椰子水。" },
+          { time: "15:30 - 20:30", title: "入住 Grande Centre Point Pattaya & T21", badge: "電梯直達", badgeColor: "bg-[#F6D27A]", desc: "飯店位於 Terminal 21 正上方！暢玩戶外滑水道與透明天空步道。晚餐在 Savoey 品嚐脆皮烤春雞與松阪豬。" }
+        ]
+      },
+      {
+        day: 5,
+        date: "1/25 (一)",
+        title: "秘境探險 · 尼莫島快艇浮潛 · 小丑魚共游",
+        stay: "Grande Centre Point Pattaya (T21 樓上)",
+        timeline: [
+          { time: "10:15 - 11:15", title: "專車接送至梭桃邑碼頭 (Sattahip)", badge: "浮潛接送車", badgeColor: "bg-[#B9DAA5]", desc: "前往海軍生態保育海域，避開一般人擠人的觀光公眾海灘。" },
+          { time: "11:30 - 15:30", title: "尼莫島快艇浮潛 & 水下全家福攝影", badge: "專屬快艇", badgeColor: "bg-[#A8D3E6]", isMust: true, desc: "海水純淨透徹，教練帶領尋找野生海葵與小丑魚（尼莫），教練全程使用專業水下相機拍照錄影（免費提供高清下載）！" },
+          { time: "16:00 - 20:30", title: "返回飯店梳洗更衣 · T21 享用 Somtum Der", badge: "飯店放鬆", badgeColor: "bg-[#F6D27A]", desc: "回房舒服洗去鹽分。晚餐在 T21 享用泰北金黃酥炸雞翅、無蝦米木臼青木瓜沙拉與糯米飯。" }
+        ]
+      },
+      {
+        day: 6,
+        date: "1/26 (二)",
+        title: "東芭恐龍谷花園 · 水上市場 · 海灘落日晚餐",
+        stay: "Grande Centre Point Pattaya (T21 樓上)",
+        timeline: [
+          { time: "10:45 - 15:30", title: "東芭樂園 (Nong Nooch Tropical Garden)", badge: "一日包車", badgeColor: "bg-[#B9DAA5]", isMust: true, desc: "搭乘觀光導覽車穿梭空中步道，探索震撼度破表的 1:1 實體恐龍谷雕塑群，小朋友拍照驚呼連連！" },
+          { time: "16:00 - 17:30", title: "四方水上市場 (Pattaya Floating Market)", badge: "專車隨行", badgeColor: "bg-[#B9DAA5]", desc: "木造水上聚落，搭手划木船穿梭水巷，選購泰式手工藝品與木製玩具。" },
+          { time: "18:00 - 20:00", title: "海灘夕陽晚宴：The Glass House Pattaya", badge: "專車前往", badgeColor: "bg-[#F2A497]", isMust: true, desc: "坐在沙灘松樹林欣賞暹羅灣落日！海鮮過敏友善：有獨立西餐出餐檯，備有德式脆皮烤豬腳、手工披薩與安格斯牛排。" }
+        ]
+      },
+      {
+        day: 7,
+        date: "1/27 (三)",
+        title: "包車重返曼谷 · 入住 Moxy · 米其林水門雞飯",
+        stay: "Moxy Bangkok Ratchaprasong (市中心空橋商圈)",
+        timeline: [
+          { time: "10:45 - 12:45", title: "專車接送返回曼谷 Moxy Bangkok 飯店", badge: "跨城包車", badgeColor: "bg-[#B9DAA5]", desc: "直接入住位於 The Market 9 樓以上的潮流設計飯店，對面就是 Big C 旗艦店。" },
+          { time: "14:00 - 15:30", title: "午餐：紅大哥水門雞飯 (米其林必比登)", badge: "步行 5 分鐘", badgeColor: "bg-[#F6D27A]", isMust: true, desc: "純雞骨熬煮清湯底，滑嫩白切雞配雞汁香油飯，完全不含甲殼海鮮成分，平價又極度美味。" },
+          { time: "16:00 - 20:30", title: "四面佛參拜 ＆ Big C 旗艦店大採買", badge: "R-Walk 空橋", badgeColor: "bg-[#A8D3E6]", desc: "走空橋參拜香火鼎盛的四面佛。傍晚在 Big C 採購手標泰奶、芒果乾與保養膏，直接封箱提回對面房間放好！" }
+        ]
+      },
+      {
+        day: 8,
+        date: "1/28 (四)",
+        title: "全日曼谷購物放鬆日 · 泰國香氛與草本 SPA",
+        stay: "Moxy Bangkok Ratchaprasong (市中心空橋商圈)",
+        timeline: [
+          { time: "10:45 - 14:00", title: "CentralWorld 購物中心 ＆ Nara 泰式午餐", badge: "空橋直達", badgeColor: "bg-[#A8D3E6]", desc: "走逛東南亞最大商城，造訪 Karmakamet 本土頂級香氛。午餐於 Nara 享用黃咖哩嫩雞與嫩烤松阪豬。" },
+          { time: "14:30 - 17:30", title: "Siam Paragon 暹羅百麗宮 & Siam Square", badge: "R-Walk 漫步", badgeColor: "bg-[#A8D3E6]", desc: "地下 Gourmet Market 精品超市採買特選伴手禮，年輕文創潮牌淘寶。" },
+          { time: "17:30 - 21:00", title: "Let's Relax 草本舒壓 ＆ Moxy 9樓高空露台", badge: "放鬆時光", badgeColor: "bg-[#F6D27A]", desc: "全家享受 1 小時草本足部放鬆按摩。晚間於 Moxy 露台酒吧享用炭烤牛小排、手工松露披薩與都會星空夜景。" }
+        ]
+      },
+      {
+        day: 9,
+        date: "1/29 (五)",
+        title: "市中心百年柚木綠洲 · 蘇凡納布退稅 · 星宇返台",
+        stay: "溫暖的家 🏠",
+        timeline: [
+          { time: "10:45 - 12:45", title: "乃樂園 (Nai Lert Park Heritage Home)", badge: "市區短乘", badgeColor: "bg-[#A8D3E6]", desc: "曼谷市中心的百年私人柚木古宅與綠洲花園，環境典雅清幽，全家漫步合影留下美好回憶。" },
+          { time: "13:00 - 14:15", title: "午宴：Lady L Garden Bistro 玻璃溫室餐廳", badge: "園區漫步", badgeColor: "bg-[#F6D27A]", desc: "在採光溫室花園享用香草嫩煎法式春雞、松露野菇寬麵與精緻千層派甜點。" },
+          { time: "15:00 - 17:50", title: "專車前往蘇凡納布機場 (BKK) 退稅登機", badge: "機場送機車", badgeColor: "bg-[#B9DAA5]", isMust: true, desc: "托運行李前先至海關退稅櫃檯蓋章驗證 P.P.10 退稅單，隨後托運行李與出境領取退稅現金。" },
+          { time: "17:50 - 22:40", title: "搭乘星宇航空 JX746 平安抵達桃園 TPE", badge: "星宇航班", badgeColor: "bg-[#F6D27A]", desc: "享用機上晚餐與星宇特調，帶著滿滿戰利品與歡笑平安返抵國門！" }
+        ]
+      }
+    ];
+
+    // ---------------- 2. 打勾待辦清單資料 ----------------
+    const CHECKLIST_ITEMS = [
+      { id: "c1", text: "預訂尼莫島 Koh Samae San 快艇浮潛私家包船（含教練水下攝影）" },
+      { id: "c2", text: "預訂曼谷 ⇄ 芭達雅來回 7–9 人座舒適商務包車" },
+      { id: "c3", text: "Supanniga Eating Room (Tha Tien) 官網預約二樓河景露台位" },
+      { id: "c4", text: "The Glass House Pattaya 預約 17:30 沙灘落日座位" },
+      { id: "c5", text: "Let's Relax Spa 官網預約 1/28 傍晚草本按摩時段" },
+      { id: "c6", text: "準備長袖長褲水母衣、防滑膠鞋與防水手機袋" },
+      { id: "c7", text: "為小朋友準備兒科常備抗組織胺抗過敏藥、腸胃藥" },
+      { id: "c8", text: "隨身攜帶 1–2 件薄外套（商場與車內冷氣極強）" },
+      { id: "c9", text: "攜帶護照（效期 6 個月以上）與信用卡（支援海外感應支付）" },
+      { id: "c10", text: "準備寺廟穿著（過膝長褲或長裙、不露肩上衣）" }
+    ];
+
+    let currentDayIndex = 0;
+
+    // ---------------- 3. 渲染日程標籤與內容 ----------------
+    function renderDayTabs() {
+      const container = document.getElementById("day-tabs-container");
+      container.innerHTML = ITINERARY_DATA.map((item, index) => {
+        const isActive = index === currentDayIndex;
+        const activeClass = isActive 
+          ? "bg-[#F6D27A] translate-x-[2px] translate-y-[2px] shadow-[1px_1px_0_#3E3A39]" 
+          : "bg-white hover:bg-[#F7F2E7] shadow-[3px_3px_0_#3E3A39]";
+        return `
+          <button onclick="switchDay(${index})" 
+                  class="comic-btn px-3.5 py-2 whitespace-nowrap text-xs sm:text-sm font-black flex flex-col items-center min-w-[76px] ${activeClass}">
+            <span class="text-[10px] text-[#8A7C75]">DAY ${item.day}</span>
+            <span class="text-sm sm:text-base">${item.date}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function switchDay(index) {
+      if (currentDayIndex === index) return;
+      currentDayIndex = index;
+      renderDayTabs();
+      renderDayContent();
+    }
+
+    function renderDayContent() {
+      const dayData = ITINERARY_DATA[currentDayIndex];
+      const contentEl = document.getElementById("day-content");
+
+      // 重新觸發彈跳動畫
+      contentEl.classList.remove("bouncy-tab-content");
+      void contentEl.offsetWidth; // force reflow
+      contentEl.classList.add("bouncy-tab-content");
+
+      contentEl.innerHTML = `
+        <div class="flex items-center justify-between border-b-3 border-[#3E3A39] pb-3 mb-5 flex-wrap gap-2">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-[#3E3A39] text-[#FFFCF6] text-xs font-black">DAY ${dayData.day}</span>
+              <span class="text-xs font-bold text-[#8A7C75]">${dayData.date}</span>
+            </div>
+            <h3 class="text-lg sm:text-2xl font-black text-[#3E3A39] mt-1">${dayData.title}</h3>
+          </div>
+          <div class="text-right">
+            <span class="text-[11px] font-bold text-[#8A7C75] block">當日住宿</span>
+            <span class="text-xs sm:text-sm font-black text-[#F2A497] bg-[#F7F2E7] px-2.5 py-1 rounded-xl border-2 border-[#3E3A39] inline-block">
+              🏨 ${dayData.stay}
+            </span>
+          </div>
+        </div>
+
+        <!-- 時間軸序列 -->
+        <div class="space-y-6 relative before:content-[''] before:absolute before:top-3 before:bottom-3 before:left-[19px] before:w-[3px] before:bg-[#3E3A39]">
+          ${dayData.timeline.map((item) => `
+            <div class="relative pl-10">
+              <!-- 時間軸圓點 -->
+              <div class="absolute left-2.5 top-1.5 w-4 h-4 rounded-full bg-[#F6D27A] border-3 border-[#3E3A39] -translate-x-1/2 shadow-[1px_1px_0_#3E3A39]"></div>
+              
+              <div class="comic-card-cream p-4 bg-[#FFFFFF]">
+                <div class="flex items-center justify-between flex-wrap gap-2 mb-1.5">
+                  <span class="text-xs sm:text-sm font-black text-[#3E3A39] bg-[#F7F2E7] px-2 py-0.5 rounded-lg border border-[#3E3A39]">
+                    ⏰ ${item.time}
+                  </span>
+                  <div class="flex items-center gap-1.5">
+                    ${item.isMust ? `<span class="must-visit-stamp">必去首選</span>` : ''}
+                    <span class="badge-tag ${item.badgeColor} px-2.5 py-0.5 text-[11px]">${item.badge}</span>
+                  </div>
+                </div>
+                <h4 class="text-base sm:text-lg font-black text-[#3E3A39] my-1">${item.title}</h4>
+                <p class="text-xs sm:text-sm font-bold text-[#6D6560] leading-relaxed">${item.desc}</p>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    // ---------------- 4. 出發倒數計時器 ----------------
+    function startCountdown() {
+      // 出發時間：2027年1月21日 13:55 (曼谷星宇起飛時間，台灣時區 UTC+8)
+      const targetTime = new Date("2027-01-21T13:55:00+08:00").getTime();
+
+      function update() {
+        const now = new Date().getTime();
+        const diff = targetTime - now;
+
+        if (diff <= 0) {
+          document.getElementById("countdown-timer").innerHTML = `
+            <div class="col-span-4 py-2 text-center font-black text-[#F2A497] text-lg">
+              🎉 已經啟程！祝全家旅途愉快、平安順遂！
+            </div>
+          `;
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById("cd-days").innerText = days;
+        document.getElementById("cd-hours").innerText = String(hours).padStart(2, '0');
+        document.getElementById("cd-minutes").innerText = String(minutes).padStart(2, '0');
+        document.getElementById("cd-seconds").innerText = String(seconds).padStart(2, '0');
+      }
+
+      update();
+      setInterval(update, 1000);
+    }
+
+    // ---------------- 5. 打勾清單與 LocalStorage 儲存 ----------------
+    function initChecklist() {
+      const container = document.getElementById("checklist-items");
+      const saved = JSON.parse(localStorage.getItem("bkk_travel_checklist") || "{}");
+
+      container.innerHTML = CHECKLIST_ITEMS.map((item) => {
+        const isChecked = !!saved[item.id];
+        return `
+          <label class="flex items-start gap-3 p-3 bg-[#F7F2E7] border-2 border-[#3E3A39] rounded-2xl cursor-pointer hover:bg-white transition-colors shadow-[2px_2px_0_#3E3A39]">
+            <input type="checkbox" id="${item.id}" onchange="toggleCheck('${item.id}')" ${isChecked ? "checked" : ""}
+                   class="w-5 h-5 rounded-lg border-2 border-[#3E3A39] text-[#F2A497] focus:ring-0 cursor-pointer mt-0.5 accent-[#F2A497]">
+            <span class="text-xs sm:text-sm font-bold text-[#3E3A39] ${isChecked ? 'line-through opacity-60' : ''}" id="text-${item.id}">
+              ${item.text}
+            </span>
+          </label>
+        `;
+      }).join('');
+
+      updateChecklistProgress();
+    }
+
+    function toggleCheck(id) {
+      const checkbox = document.getElementById(id);
+      const textEl = document.getElementById(`text-${id}`);
+      const saved = JSON.parse(localStorage.getItem("bkk_travel_checklist") || "{}");
+
+      if (checkbox.checked) {
+        saved[id] = true;
+        textEl.classList.add("line-through", "opacity-60");
+      } else {
+        delete saved[id];
+        textEl.classList.remove("line-through", "opacity-60");
+      }
+
+      localStorage.setItem("bkk_travel_checklist", JSON.stringify(saved));
+      updateChecklistProgress();
+    }
+
+    function updateChecklistProgress() {
+      const saved = JSON.parse(localStorage.getItem("bkk_travel_checklist") || "{}");
+      const count = Object.keys(saved).length;
+      document.getElementById("checklist-progress").innerText = `${count} / ${CHECKLIST_ITEMS.length}`;
+    }
+
+    // ---------------- 6. 複製過敏泰文小卡 ----------------
+    function copyAllergyText() {
+      const text = document.getElementById("allergy-thai-text").innerText.trim();
+      const tempInput = document.createElement("textarea");
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+
+      // 建立簡約可愛小通知浮窗
+      const tip = document.createElement("div");
+      tip.innerText = "✨ 泰文點餐小卡已複製到剪貼簿！";
+      tip.className = "fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 bg-[#F6D27A] border-3 border-[#3E3A39] rounded-2xl font-black text-xs text-[#3E3A39] shadow-[3px_3px_0_#3E3A39] animate-bounce";
+      document.body.appendChild(tip);
+      setTimeout(() => tip.remove(), 2500);
+    }
+
+    // 頁面載入初始化
+    window.addEventListener("DOMContentLoaded", () => {
+      renderDayTabs();
+      renderDayContent();
+      startCountdown();
+      initChecklist();
+    });
+  </script>
+</body>
+</html>
